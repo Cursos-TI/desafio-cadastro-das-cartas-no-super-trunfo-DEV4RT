@@ -16,6 +16,9 @@ int main() {
     float pibCarta1, pibCarta2;
     int pontosTuristicosCarta1, pontosTuristicosCarta2;
 
+    // Declarando variáveis para armazenar os pontos de cada carta para a comparação
+    int pontoscarta1 = 0, pontoscarta2 = 0;
+
     // Cadastro das Cartas:
     // Coletando dados para a primeira carta
     printf("Cadastro da primeira carta:\n");
@@ -82,5 +85,49 @@ int main() {
     printf("PIB: %.2f bilhões de reais\n", pibCarta2);
     printf("Número de Pontos Turísticos: %d\n", pontosTuristicosCarta2);
 
+
+        // comparação de cartas
+
+    // População/Área
+    if (populacaoCarta1/areaCarta1 < populacaoCarta2/areaCarta2) {
+        pontoscarta1++;
+        printf("\n\nA primeira carta tem menor densidade demográfica!\n");
+    } else if (populacaoCarta1/areaCarta1 > populacaoCarta2/areaCarta2) {
+        pontoscarta2++;
+        printf("\n\nA segunda carta tem menor densidade demográfica!\n");
+    } else {
+        printf("\n\nAs duas cartas têm a mesma densidade demográfica!\n");
+    }
+
+    // PIB/População
+    if (pibCarta1/populacaoCarta1 > pibCarta2/populacaoCarta2) {
+        pontoscarta1++;
+        printf("A primeira carta tem maior PIB per capita!\n");
+    } else if (pibCarta1/populacaoCarta1 < pibCarta2/populacaoCarta2) {
+        pontoscarta2++;
+        printf("A segunda carta tem maior PIB per capita!\n");
+    } else {
+        printf("As duas cartas têm o mesmo PIB per capita!\n");
+
+    //pontos turísticos
+    } if (pontosTuristicosCarta1 > pontosTuristicosCarta2) {
+        pontoscarta1++;
+        printf("A primeira carta tem mais pontos turísticos!\n");
+    } else if (pontosTuristicosCarta1 < pontosTuristicosCarta2) {
+        pontoscarta2++;
+        printf("A segunda carta tem mais pontos turísticos!\n");
+    } else {
+        printf("As duas cartas têm o mesmo número de pontos turísticos!\n");
+    }
+    // Resultado final
+    if (pontoscarta1 > pontoscarta2) {
+        printf("\n\nA primeira carta é a melhor opção!\n");
+    } else if (pontoscarta2 > pontoscarta1) {
+        printf("\nA segunda carta é a melhor opção!\n");
+    } else {
+        printf("\nAs duas cartas são iguais!\n");
+    }
+
     return 0;
+    
 }

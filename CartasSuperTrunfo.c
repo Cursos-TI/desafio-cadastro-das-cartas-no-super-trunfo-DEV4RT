@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 // Desafio Super Trunfo - Países
 // Tema 1 - Cadastro das Cartas
@@ -6,128 +8,190 @@
 // Siga os comentários para implementar cada parte do desafio.
 //Teste larissa
 
+#define NUM_ESTADOS 5
+
+// Estrutura para armazenar informações de estado e cidades
+typedef struct {
+    char estado[20];
+    char cidades[3][30];
+} EstadoCidade;
+
+EstadoCidade estadosCidades[NUM_ESTADOS] = {
+    {"SP", {"São Paulo", "Campinas", "Santos"}},
+    {"RJ", {"Rio de Janeiro", "Niterói", "Petrópolis"}},
+    {"PE", {"Recife", "Olinda", "Caruaru"}},
+    {"BA", {"Salvador", "Feira de Santana", "Ilhéus"}},
+    {"MG", {"Belo Horizonte", "Ouro Preto", "Juiz de Fora"}}
+};
+
+// Função para gerar carta aleatória
+void gerarCarta(char *estado, char *cidade, int *populacao, float *area, float *pib, int *pontosTuristicos) {
+    int indexEstado = rand() % NUM_ESTADOS;
+    int indexCidade = rand() % 3;
+
+    // Preencher dados
+    sprintf(estado, "%s", estadosCidades[indexEstado].estado);
+    sprintf(cidade, "%s", estadosCidades[indexEstado].cidades[indexCidade]);
+    *populacao = (rand() % (12000000 - 100000)) + 100000; // População entre 100 mil e 12 milhões
+    *area = (rand() % 3000) + 50;                        // Área entre 50 e 3000 km²
+    *pib = (rand() % 500) + 10;                          // PIB entre 10 e 500 bi
+    *pontosTuristicos = rand() % 21;                     // Pontos entre 0 e 20
+}
+
 int main() {
-    // Sugestão: Defina variáveis separadas para cada atributo da cidade.
-    char estadoCarta1, estadoCarta2;
-    char codigoCarta1[4], codigoCarta2[4];
-    char nomeCidadeCarta1[50], nomeCidadeCarta2[50];
-    int populacaoCarta1, populacaoCarta2;
-    float areaCarta1, areaCarta2;
-    float pibCarta1, pibCarta2;
-    int pontosTuristicosCarta1, pontosTuristicosCarta2;
+    srand(time(NULL));
 
-    // Declarando variáveis para armazenar os pontos de cada carta para a comparação
-    int pontoscarta1 = 0, pontoscarta2 = 0;
+    char estadoPlayer[20], cidadePlayer[30];
+    char estadoBot[20], cidadeBot[30];
+    int populacaoPlayer, populacaoBot;
+    float areaPlayer, areaBot, pibPlayer, pibBot;
+    int pontosTuristicosPlayer, pontosTuristicosBot;
 
-    // Cadastro das Cartas:
-    // Coletando dados para a primeira carta
-    printf("Cadastro da primeira carta:\n");
-    printf("Digite uma letra de 'A' a 'H' para o estado: ");
-    scanf(" %c", &estadoCarta1);
+    int escolhaAtributo;
+    char tipoComparacao;
+    int resultado;
 
-    printf("Digite o código da carta (ex: A01): ");
-    scanf(" %s", codigoCarta1);
+    // Gerar carta aleatória para o BOT
+    gerarCarta(estadoBot, cidadeBot, &populacaoBot, &areaBot, &pibBot, &pontosTuristicosBot);
 
-    printf("Digite o nome da cidade (sem espaços): ");
-    scanf(" %s", nomeCidadeCarta1);
+    // Coletar dados da carta do jogador
+    printf("Cadastro da sua carta:\n");
+    gerarCarta(estadoPlayer, cidadePlayer, &populacaoPlayer, &areaPlayer, &pibPlayer, &pontosTuristicosPlayer);
 
-    printf("Digite a população: ");
-    scanf("%d", &populacaoCarta1);
+    printf("Sua carta gerada automaticamente:\n");
+    printf("Estado: %s\nCidade: %s\nPopulação: %d\nÁrea: %.2f km²\nPIB: %.2f bi\nPontos Turísticos: %d\n",
+           estadoPlayer, cidadePlayer, populacaoPlayer, areaPlayer, pibPlayer, pontosTuristicosPlayer);
 
-    printf("Digite a área (em km²): ");
-    scanf("%f", &areaCarta1);
+    // Menu de escolha
+    printf("\nEscolha o atributo para comparar:\n");
+    printf("1 - Populacao\n2 - Area\n3 - PIB\n4 - Pontos Turisticos\n");
+    scanf("%d", &escolhaAtributo);
 
-    printf("Digite o PIB (em bilhões de reais): ");
-    scanf("%f", &pibCarta1);
+    printf("Escolha o tipo de comparacao (M - Maior, E - Menor, I - Igual): ");
+    scanf(" %c", &tipoComparacao);
 
-    printf("Digite o número de pontos turísticos: ");
-    scanf("%d", &pontosTuristicosCarta1);
-
-    // Coletando dados para a segunda carta
-    printf("\nCadastro da segunda carta:\n");
-    printf("Digite uma letra de 'A' a 'H' para o estado: ");
-    scanf(" %c", &estadoCarta2);
-
-    printf("Digite o código da carta (ex: B02): ");
-    scanf(" %s", codigoCarta2);
-
-    printf("Digite o nome da cidade (sem espaços): ");
-    scanf(" %s", nomeCidadeCarta2);
-
-    printf("Digite a população: ");
-    scanf("%d", &populacaoCarta2);
-
-    printf("Digite a área (em km²): ");
-    scanf("%f", &areaCarta2);
-
-    printf("Digite o PIB (em bilhões de reais): ");
-    scanf("%f", &pibCarta2);
-
-    printf("Digite o número de pontos turísticos: ");
-    scanf("%d", &pontosTuristicosCarta2);
-
-    // Exibição dos Dados das Cartas:
-    printf("\nDados da primeira carta:\n");
-    printf("Estado: %c\n", estadoCarta1);
-    printf("Código: %s\n", codigoCarta1);
-    printf("Nome da Cidade: %s\n", nomeCidadeCarta1);
-    printf("População: %d habitantes\n", populacaoCarta1);
-    printf("Área: %.2f km²\n", areaCarta1);
-    printf("PIB: %.2f bilhões de reais\n", pibCarta1);
-    printf("Número de Pontos Turísticos: %d\n", pontosTuristicosCarta1);
-
-    printf("\nDados da segunda carta:\n");
-    printf("Estado: %c\n", estadoCarta2);
-    printf("Código: %s\n", codigoCarta2);
-    printf("Nome da Cidade: %s\n", nomeCidadeCarta2);
-    printf("População: %d habitantes\n", populacaoCarta2);
-    printf("Área: %.2f km²\n", areaCarta2);
-    printf("PIB: %.2f bilhões de reais\n", pibCarta2);
-    printf("Número de Pontos Turísticos: %d\n", pontosTuristicosCarta2);
-
-
-        // comparação de cartas
-
-    // População/Área
-    if (populacaoCarta1/areaCarta1 < populacaoCarta2/areaCarta2) {
-        pontoscarta1++;
-        printf("\n\nA primeira carta tem menor densidade demográfica!\n");
-    } else if (populacaoCarta1/areaCarta1 > populacaoCarta2/areaCarta2) {
-        pontoscarta2++;
-        printf("\n\nA segunda carta tem menor densidade demográfica!\n");
-    } else {
-        printf("\n\nAs duas cartas têm a mesma densidade demográfica!\n");
+    // Comparar com switch
+    switch (escolhaAtributo) {
+        case 1: // População
+            printf("\nComparando População: %d vs %d\n", populacaoPlayer, populacaoBot);
+            switch (tipoComparacao) {
+                case 'M':
+                case 'm':
+                    printf("Você escolheu Maior\n");
+                    resultado = (populacaoPlayer > populacaoBot);
+                    break;
+                case 'E':
+                case 'e':
+                    printf("Você escolheu Menor\n");
+                    resultado = (populacaoPlayer < populacaoBot);
+                    break;
+                case 'I':
+                case 'i':
+                    printf("Você escolheu Igual\n");
+                    resultado = (populacaoPlayer == populacaoBot);
+                    break;
+                default:
+                    printf("Opção inválida para comparação!\n");
+                    return 0;
+            }
+            break;
+        case 2: // Área
+            printf("\nComparando Área: %.2f km² vs %.2f km²\n", areaPlayer, areaBot);
+            switch (tipoComparacao) {
+                case 'M':
+                case 'm':
+                    printf("Você escolheu Maior\n");
+                    resultado = (areaPlayer > areaBot);
+                    break;
+                case 'E':
+                case 'e':
+                    printf("Você escolheu Menor\n");
+                    resultado = (areaPlayer < areaBot);
+                    break;
+                case 'I':
+                case 'i':
+                    printf("Você escolheu Igual\n");
+                    resultado = (areaPlayer == areaBot);
+                    break;
+                default:
+                    printf("Opção inválida para comparação!\n");
+                    return 0;
+            }
+            break;
+        case 3: // PIB
+            printf("\nComparando PIB: %.2f bi vs %.2f bi\n", pibPlayer, pibBot);
+            switch (tipoComparacao) {
+                case 'M':
+                case 'm':
+                    printf("Você escolheu Maior\n");
+                    resultado = (pibPlayer > pibBot);
+                    break;
+                case 'E':
+                case 'e':
+                    printf("Você escolheu Menor\n");
+                    resultado = (pibPlayer < pibBot);
+                    break;
+                case 'I':
+                case 'i':
+                    printf("Você escolheu Igual\n");
+                    resultado = (pibPlayer == pibBot);
+                    break;
+                default:
+                    printf("Opção inválida para comparação!\n");
+                    return 0;
+            }
+            break;
+        case 4: // Pontos Turísticos
+            printf("\nComparando Pontos Turísticos: %d vs %d\n", pontosTuristicosPlayer, pontosTuristicosBot);
+            switch (tipoComparacao) {
+                case 'M':
+                case 'm':
+                    printf("Você escolheu Maior\n");
+                    resultado = (pontosTuristicosPlayer > pontosTuristicosBot);
+                    break;
+                case 'E':
+                case 'e':
+                    printf("Você escolheu Menor\n");
+                    resultado = (pontosTuristicosPlayer < pontosTuristicosBot);
+                    break;
+                case 'I':
+                case 'i':
+                    printf("Você escolheu Igual\n");
+                    resultado = (pontosTuristicosPlayer == pontosTuristicosBot);
+                    break;
+                default:
+                    printf("Opção inválida para comparação!\n");
+                    return 0;
+            }
+            break;
+        default:
+            printf("Opção de atributo inválida!\n");
+            return 0;
     }
 
-    // PIB/População
-    if (pibCarta1/populacaoCarta1 > pibCarta2/populacaoCarta2) {
-        pontoscarta1++;
-        printf("A primeira carta tem maior PIB per capita!\n");
-    } else if (pibCarta1/populacaoCarta1 < pibCarta2/populacaoCarta2) {
-        pontoscarta2++;
-        printf("A segunda carta tem maior PIB per capita!\n");
-    } else {
-        printf("As duas cartas têm o mesmo PIB per capita!\n");
+    // Mostrar cartas no final
+    printf("\n--- Suas Cartas ---\n");
+    printf("Estado: %s\n", estadoPlayer);
+    printf("Cidade: %s\n", cidadePlayer);
+    printf("População: %d habitantes\n", populacaoPlayer);
+    printf("Área: %.2f km²\n", areaPlayer);
+    printf("PIB: %.2f bilhões de reais\n", pibPlayer);
+    printf("Pontos Turísticos: %d\n", pontosTuristicosPlayer);
 
-    //pontos turísticos
-    } if (pontosTuristicosCarta1 > pontosTuristicosCarta2) {
-        pontoscarta1++;
-        printf("A primeira carta tem mais pontos turísticos!\n");
-    } else if (pontosTuristicosCarta1 < pontosTuristicosCarta2) {
-        pontoscarta2++;
-        printf("A segunda carta tem mais pontos turísticos!\n");
-    } else {
-        printf("As duas cartas têm o mesmo número de pontos turísticos!\n");
-    }
+    printf("\n--- Carta do Computador ---\n");
+    printf("Estado: %s\n", estadoBot);
+    printf("Cidade: %s\n", cidadeBot);
+    printf("População: %d habitantes\n", populacaoBot);
+    printf("Área: %.2f km²\n", areaBot);
+    printf("PIB: %.2f bilhões de reais\n", pibBot);
+    printf("Pontos Turísticos: %d\n", pontosTuristicosBot);
+
     // Resultado final
-    if (pontoscarta1 > pontoscarta2) {
-        printf("\n\nA primeira carta é a melhor opção!\n");
-    } else if (pontoscarta2 > pontoscarta1) {
-        printf("\nA segunda carta é a melhor opção!\n");
+    if (resultado) {
+        printf("\nVocê ganhou esta rodada!\n");
     } else {
-        printf("\nAs duas cartas são iguais!\n");
+        printf("\nVocê perdeu esta rodada!\n");
     }
 
     return 0;
-    
 }
